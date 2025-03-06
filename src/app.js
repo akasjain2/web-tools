@@ -11,12 +11,14 @@ import serveIndex from 'serve-index';
 import find from './finder.js';
 import { fetchRequestedUrl } from './fetcher.js';
 import { getUrlList } from './franklin/url-list.js';
+import cheerio from "cheerio";
+import axios from "axios";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = process.env.port ?? 3001;
+const port = process.env.port ?? 3002;
 
 const ASSET_BIN = 'asset-bin';
 
@@ -226,6 +228,40 @@ app.post('/check-url', async (req, res) => {
       });
   }
 });
+
+app.post("/check-links", async (req, res) => {
+  const { url } = req.body;
+  try {
+    const { data } = await axios.get(url);
+    const $ = cheerio.load(data);
+    const links = [];
+
+    $("a").each((_, element) => {
+      let href = $(element).attr("href");
+      if (href && !href.startsWith("#")) {
+        href = new URL(href, url).href;
+        links.push(href);
+      }
+    });
+
+    const results = await Promise.all(
+        links.map(async (link) => ({ link, status: await checkLink(link) }))
+    );
+
+    res.json({ success: true, results });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error fetching URL" });
+  }
+});
+
+const checkLink = async (url) => {
+  try {
+    const response = await axios.head(url, { timeout: 5000 });
+    return response.status >= 200 && response.status < 400 ? "OK" : "BROKEN";
+  } catch (error) {
+    return "BROKEN";
+  }
+};
 
 // Start the server
 app.listen(port, () => {

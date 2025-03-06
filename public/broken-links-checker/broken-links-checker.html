@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="broken-links-checker.css" />
+    <title>Broken Links Checker</title>
+</head>
+<body>
+<div class="container">
+    <h1 className="text-2xl font-bold mb-4">Broken Links Checker</h1>
+    <input
+            id="linkInput"
+            type="text"
+            placeholder="Enter URL"
+            value="https://www.example.com"
+            class="border p-2 w-full mb-4"
+    />
+    <button class="broken-links-submit bg-blue-500 text-white px-4 py-2 rounded">
+        Check Links
+    </button>
+    <div class="spinner-container" id="spinnerContainer">
+        <div class="spinner"></div>
+    </div>
+    <table id="url-table">
+        <thead>
+        <tr>
+            <th onclick="sortTable(0)">URL</th>
+            <th onclick="sortTable(2)">Status</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<script src="broken-links-checker.js"></script>
+</body>
+</html>
