@@ -16,3 +16,39 @@
 #linkInput {
   width: 800px;
 }
+
+#url-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  table-layout: fixed;
+}
+
+#url-table th,
+#url-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#url-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#url-table th:first-child {
+  width: 1000px;
+}
+
+#url-table tbody tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+#url-table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+#url-table tbody tr:hover {
+  background-color: #f0f0f0;
+}s

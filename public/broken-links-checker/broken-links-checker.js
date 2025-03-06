@@ -20,6 +20,9 @@ document.getElementsByClassName('broken-links-submit')[0].addEventListener('clic
             if(result.link.search("mailto") !== -1 || result.link.search("tel:") !== -1) {
                 return;
             }
+            if(result.link.search('files.clarkcountynv.gov') !== -1 || result.link.search('webfiles.clarkcountynv.gov') !== -1) {
+                result.status = "BROKEN";
+            }
             addUrlToTable(result.link, result.status);
         });
     } catch (err) {
